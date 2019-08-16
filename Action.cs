@@ -2,7 +2,7 @@
 
 namespace CalcClasses
 {
-    class Action
+    public class Action
     {
         // Элементы дынных публичные - для простоты
         /// <summary>

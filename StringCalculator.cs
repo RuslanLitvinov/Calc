@@ -11,7 +11,7 @@ namespace CalcClasses
     /// а) добавить ее обозначение (и приоритет) в метод InitOperators;
     /// б) реализацию в класс Action
     /// </summary>
-    class StringCalculator : StringExpression
+    public class StringCalculator : StringExpression
     {
         public StringCalculator(string expression):base()
         {
@@ -85,7 +85,7 @@ namespace CalcClasses
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public Action GetNextAction(string expression)
+        private Action GetNextAction(string expression)
         {
            if (string.IsNullOrEmpty(expression))
             {

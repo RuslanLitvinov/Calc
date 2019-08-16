@@ -7,7 +7,7 @@ namespace CalcClasses
     /// <summary>
     /// Реализует начальный функционал мат.выражения в строке.
     /// </summary>
-    class StringExpression
+    public class StringExpression
     {
         string expression;
         public string Expression
