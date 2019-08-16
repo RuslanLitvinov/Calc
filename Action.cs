@@ -2,78 +2,50 @@
 
 namespace CalcClasses
 {
+    /// <summary>
+    /// Операция Action - это математическое действия с левым и правым операндом
+    /// </summary>
     public class Action
     {
-        // Элементы дынных публичные - для простоты
         /// <summary>
         /// Какая операция: *,/,+,-,...
         /// </summary>
-        public string type;
-        public string operand1Str;
+        string type;
+        string operand1Str;
         public decimal? operant1Dec;
-        public string operand2Str;
+        string operand2Str;
         public decimal? operant2Dec;
-        public decimal? resultDec;
-        private string resultStr;
-        public string expression;
+        //private string resultStr;
+        string expression;
+        /// <summary>
+        /// Исходное выражение операции, каким оно было в строке.
+        /// Нужно например, что подменить в исходной строке результатом
+        /// </summary>
+        public string Expression
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
+        public string Type
+        {
+            get { return type; }
+            set { type = value.Trim().ToLower(); }
+        }
+        public string Operand1Str
+        {
+            get { return operand1Str; }
+            set { operand1Str = value; }
+        }
+        public string Operand2Str
+        {
+            get { return operand2Str; }
+            set { operand2Str = value; }
+        }
         public Action(string expression)
         {
             this.expression = expression;
-            this.resultStr = expression;
         }
-        public string Result()
-        {
-            if (this.resultDec != null)
-            {
-                return this.resultDec.ToString();
-            }
-            else
-            {
-                return this.resultStr;  
-            }
-        }
-        public void Execute()
-        {
-            if (string.IsNullOrEmpty(this.type))
-            {
-                return;
-            }
-
-            ParseOperands();
-
-            switch (this.type.Trim().ToLower())
-            {
-                case "*":
-                    if (this.ValidateTwoOperands())
-                    {
-                        this.resultDec = this.operant1Dec * this.operant2Dec;
-                    }
-                    break;
-                case "/":
-                    if (this.ValidateTwoOperands())
-                    {
-                        this.resultDec = this.operant1Dec / this.operant2Dec;
-                    }
-
-                    break;
-                case "+":
-                    if (this.ValidateTwoOperands())
-                    {
-                        this.resultDec = this.operant1Dec + this.operant2Dec;
-                    }
-                    break;
-                case "-":
-                    if (this.ValidateTwoOperands())
-                    {
-                        this.resultDec = this.operant1Dec - this.operant2Dec;
-                    }
-                    break;
-                default:
-                    throw new InvalidOperationException($"Для операции '{this.type}' не реализовано исполнение.");
-                  
-            }
-        }
-        private void ParseOperands()
+        public void ParseOperands()
         {
             if (this.operant1Dec == null && !string.IsNullOrWhiteSpace(this.operand1Str))
             {
@@ -97,16 +69,6 @@ namespace CalcClasses
                     Console.WriteLine($"Операнд 2 = '{this.operand2Str}' непонятен и будет оставлен в выражении.");
                 }
             }
-        }
-        private bool ValidateTwoOperands()
-        {
-            if (this.operant1Dec == null || this.operant2Dec == null)
-            {
-                Console.WriteLine($"Для операции '{this.type}' нет одного из операндов. Выражение {this.expression} будет результатом.");
-                return false;     // !!!
-            }
-
-            return true;    // !!!
         }
     }
 }

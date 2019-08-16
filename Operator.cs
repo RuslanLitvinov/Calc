@@ -11,7 +11,6 @@
         /// Приоритет операции 0,1..   0- самый высокий
         /// </summary>
         public int prior;
-        public int firstPos;
-        public int lastPos;
+        public int position;
     }
 }

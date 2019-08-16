@@ -6,28 +6,20 @@ namespace CalcClasses
     {
         static void Main()
         {
-            var myCalc = new StringCalculator("");
-            var expression = "";
+            var myCalc = new CalculatorString();
             do
             {
                 Console.WriteLine("Задайте выражение ('q' для выхода):");
-                expression = Console.ReadLine();
+                string expression = Console.ReadLine();
 
                 if (expression.Trim().ToLower() == "q")
                 {
                     break;
                 }
 
-                if (string.IsNullOrEmpty(expression))
-                {
-                    Console.WriteLine("Пусто");
-                    continue;        //  !!
-                }
-
-                myCalc.Expression = expression;
                 try
                 {
-                    Console.WriteLine(myCalc.Execute());
+                    Console.WriteLine(myCalc.Calculation(expression));
                 }
                 catch (InvalidOperationException e)
                 {
