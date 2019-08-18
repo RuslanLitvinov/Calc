@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 namespace CalcClasses
 {
     /// <summary>
-    /// Разбор текстовой строки с выражением
+    /// Персинг текстовой строки.
+    /// Из знаний - только, что операнды операций ограничиваются другими операторами или границами строки (самих операторов не знает). 
+    /// А так же, что чило открытых скобок должно быть равно числу закрытых. Все.
     /// </summary>
-    public class MathString
+    public class MathString : IMathString
     {
         public  MathString()
         {
@@ -173,9 +175,8 @@ namespace CalcClasses
         /// <returns></returns>
         public List<Operator> GetLastOperatorsSortPositionDesc(string expression, List<Operator> allOperators)
         {
-            var mathStr = new MathString();
 
-            var operatorsLast = mathStr.GetOperators(expression, allOperators);
+            var operatorsLast = GetOperators(expression, allOperators);
             if (operatorsLast == null)
             {
                 return null;        // !!!
@@ -187,7 +188,7 @@ namespace CalcClasses
             {
                 // позицию приходися присвоить через отдельный экземп. структуры, иначе у в коллекции только типы, менять нельзя
                 oper = operatorsLast[i];
-                oper.position = mathStr.OperatorLastIndexOf(expression, operatorsLast[i].type);
+                oper.position = OperatorLastIndexOf(expression, operatorsLast[i].type);
                 operatorsLast[i] = oper;
             }
             operatorsLast = operatorsLast.OrderByDescending(o => o.position).ToList();

@@ -5,16 +5,31 @@ using System.Linq;
 namespace CalcClasses
 {
     /// <summary>
-    /// Рализует начальный функционал калькулятора из текстовой строки со скобками.
-    /// Учитывает приоритет операций. Например выражение 3*(2+3)/2-3*2 - должно правильно вычисляться.
+    /// Начальный функционал калькулятора из текстовой строки со скобками.
+    /// Учитывает приоритет операций, например выражение 3*(2+3)/2-3*2 - должно правильно вычисляться.
     /// Для добавления новой операции над операндом (или 2-мя операндами) в выражение expression
-    /// нужно добавить ее обозначение и вычисление в класс OperatorString
+    /// нужно унаследоваться от класса OperatorString 
+    /// и добавить функционалу InitOperators, CalcFunction, ExecuteAction,
+    /// передав конструктору CalculatorString(IMathString oMathStr, IOperatorString oStringOperators)
+    /// соответствующие объекты.
     /// </summary>
     public class CalculatorString
     {
+        private readonly IMathString mathStr;
+        private readonly IOperatorString stringOperators;
         public CalculatorString()
         {
+            // Для модульного теститования
+            mathStr = new MathString();
+            stringOperators = new OperatorString();
         }
+        public CalculatorString(IMathString oMathStr, IOperatorString oStringOperators)
+        {
+            // Для модульного теститования
+            mathStr = oMathStr;
+            stringOperators = oStringOperators;
+        }
+
         /// <summary>
         /// Вычисляет значение выражения в строковом виде
         /// </summary>
@@ -25,13 +40,10 @@ namespace CalcClasses
         /// </returns>
         public string Calculation(string expression)
         {
-            var mathStr = new MathString();
             mathStr.ValidateExpression(expression);
 
-            var stringOperators = new OperatorString();
-
             // Вычисление скобки
-            string bracketExpr = mathStr.GetFirstBracketExpression(expression, stringOperators.operators);
+            string bracketExpr = mathStr.GetFirstBracketExpression(expression, stringOperators.Operators);
             if (!string.IsNullOrEmpty(bracketExpr))
             {
                 // Убирая скобки, помним, что могут быть еще и вложенные скобки и их нужно оставить
@@ -55,14 +67,14 @@ namespace CalcClasses
             }
 
             // тригонометрические и другие функции
-            string funcExpr = mathStr.GetFuncExpression(expression, stringOperators.operators);
+            string funcExpr = mathStr.GetFuncExpression(expression, stringOperators.Operators);
             if (!string.IsNullOrEmpty(funcExpr))
             {
                 return Calculation(expression.Replace(funcExpr, stringOperators.CalcFunction(funcExpr)));     // !!!
             }
 
             // Операции с двумя операндами ( например простые арифметические операции)
-            var action = GetNextAction(expression, stringOperators.operators);
+            var action = GetNextAction(expression, stringOperators.Operators);
             if (action != null)
             {
                 string actionResult = stringOperators.ExecuteAction(action);
@@ -90,7 +102,6 @@ namespace CalcClasses
             {
                 return null;        //         !!!
             }
-            var mathStr = new MathString();
             var exprOperators = mathStr.GetFirstOperatorsSortPositionAsc(expression, allOperators);
             if (exprOperators == null)
             {
@@ -105,7 +116,7 @@ namespace CalcClasses
                 {  // коллекция exprOperators отсортирована по возрастанию позиций в выражении
                    // так, что одного приоритета будут идти по порядку, как в выражении
 
-                    //currActionPosition = exprOperators.Where(oper => oper.prior == prior).DefaultIfEmpty(this.defaultNotFoundOperator).Min(oper => oper.firstPos);
+                    //currActionPosition = exprOperators.Where(oper => oper.prior == prior).DefaultIfEmpty(OperatorString.DefaultNotFoundOperator()).Min(oper => oper.firstPos);
 
                     // В некоторых случаях считать дальше нельзя. Так было с ф+2-12: операция ф+2 была невыполнима.
                     // это будет отработано во внешней процедуре - результат не изменится и вычисления прекратятся.

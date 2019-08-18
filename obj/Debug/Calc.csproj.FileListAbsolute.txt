@@ -10,3 +10,4 @@ C:\GIT\Calc\obj\Debug\Calc.pdb
 C:\GIT\Calc\bin\Debug\Calc.exe.config
 C:\GIT\Calc\bin\Debug\Calc.exe
 C:\GIT\Calc\bin\Debug\Calc.pdb
+C:\GIT\Calc\obj\Debug\Calc.csprojAssemblyReference.cache

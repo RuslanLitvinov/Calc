@@ -5,20 +5,26 @@ using System.Linq;
 namespace CalcClasses
 {
     /// <summary>
-    /// Реализует функционал математических операция в текстовой строке.
+    /// Сведения о математических операциях (обозначение, выполнение) в текстовой строке.
     /// TODO: реализовать выполенение тригонометрический и прочих самодельных функций так же через метод 
-    ///  ExecuteAction - и представление из через объект action
+    ///    ExecuteAction - и представление из через объект action
     /// </summary>
-    public class OperatorString
+    public class OperatorString : IOperatorString
     {
         /// <summary>
         /// '+', '-', '*', '/', и др. определяемые разработчиком
         /// </summary>
-        public List<Operator> operators;
-        public Operator defaultNotFoundOperator;
+        private List<Operator> operators;
         public OperatorString()
         {
             this.InitOperators();
+        }
+        public List<Operator> Operators
+        {
+            get
+            {
+                return operators; 
+            }
         }
         public static Operator DefaultNotFoundOperator()
         {
@@ -26,23 +32,21 @@ namespace CalcClasses
         }
         public virtual void InitOperators()
         {
-            this.defaultNotFoundOperator = OperatorString.DefaultNotFoundOperator();
-
             this.operators = new List<Operator>
             {
                 new Operator() { type = "*", prior = 0 },
                 new Operator() { type = "/", prior = 0 },
                 new Operator() { type = "+", prior = 1 },
                 new Operator() { type = "-", prior = 1 }
+              // ...
             };
-            // ...
         }
-        public string CalcFunction(string funcExpr)
+        public virtual string CalcFunction(string funcExpr)
         {
             // TODO: по мере необходимости реализовать подсчет различных функций (триг. и др.)
             return funcExpr;   //    !!!
         }
-        public string ExecuteAction(Action action)
+        public virtual string ExecuteAction(Action action)
         {
             if (action == null)
             {
@@ -58,7 +62,7 @@ namespace CalcClasses
 
             switch (action.Type)
             {
-                case "*":
+                case "*":    // не через вызов соответствующего метода (которые можно переопределить) для простоты
                     if (ValidateTwoOperands(action))
                     {
                         resultDec = action.operant1Dec * action.operant2Dec;
@@ -98,7 +102,7 @@ namespace CalcClasses
             }
 
         }
-        private bool ValidateTwoOperands(Action action)
+        public bool ValidateTwoOperands(Action action)
         {
             if (action.operant1Dec == null || action.operant2Dec == null)
             {
