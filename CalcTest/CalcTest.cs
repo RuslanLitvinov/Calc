@@ -18,6 +18,17 @@ namespace CalcClasses
             Assert.AreEqual(expected, actual);
         }
         [TestMethod]
+        public void JustLiterary()
+        {
+            var calc = new CalculatorString();
+            string expression = "f";
+
+            string expected = "f";
+            string actual = calc.Calculation(expression);
+
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
         public void OperationPriority()
         {
             var calc = new CalculatorString();
