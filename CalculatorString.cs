@@ -17,12 +17,6 @@ namespace CalcClasses
     {
         private readonly IMathString mathStr;
         private readonly IOperatorString stringOperators;
-        public CalculatorString()
-        {
-            // Для модульного теститования
-            mathStr = new MathString();
-            stringOperators = new OperatorString();
-        }
         public CalculatorString(IMathString oMathStr, IOperatorString oStringOperators)
         {
             // Для модульного теститования
