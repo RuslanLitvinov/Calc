@@ -1,4 +1,8 @@
 ﻿using System;
+//using Ninject.Core;
+//using Ninject.Modules;
+using Ninject;
+
 
 namespace CalcClasses
 {
@@ -6,7 +10,11 @@ namespace CalcClasses
     {
         static void Main()
         {
-            var myCalc = new CalculatorString();
+            //IModule = new InlineModule
+            //IKernel kernel = new StandardKernel(new InlineModule());
+            NinjectContext.SetUp();
+            var myCalc = NinjectContext.Kernel.Get<CalculatorString>();
+            //var myCalc = new CalculatorString();
             do
             {
                 Console.WriteLine("Задайте выражение ('q' для выхода):");
