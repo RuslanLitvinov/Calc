@@ -7,11 +7,15 @@ namespace CalcClasses
     [TestClass]
     public class CalcTest
     {
+        private CalculatorString GetCalc()
+        {
+            NinjectContext.SetUp();
+            return NinjectContext.Kernel.Get<CalculatorString>();     
+        }
         [TestMethod]
         public void Is_Constant()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "5";
 
@@ -23,8 +27,7 @@ namespace CalcClasses
         [TestMethod]
         public void JustLiterary()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "f";
 
@@ -36,8 +39,7 @@ namespace CalcClasses
         [TestMethod]
         public void OperationPriority()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "12+3*8/2+3*2/6";
 
@@ -49,8 +51,7 @@ namespace CalcClasses
         [TestMethod]
         public void BracketPriority()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "12-3*(6-2)/4-7";
 
@@ -62,8 +63,7 @@ namespace CalcClasses
         [TestMethod]
         public void DoubleBracket()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "7-3*((6-2))/5";
 
@@ -75,8 +75,7 @@ namespace CalcClasses
         [TestMethod]
         public void ManyBracket()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "356*((55-(105-50))*3)";
 
@@ -88,8 +87,7 @@ namespace CalcClasses
         [TestMethod]
         public void Exception_ExpectedCket()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "8-2*((6-2)/5";
 
@@ -111,8 +109,7 @@ namespace CalcClasses
         [TestMethod]
         public void CanNotOperationWithNegativeNumber_NotException()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "-2+3";
 
@@ -124,8 +121,7 @@ namespace CalcClasses
         [TestMethod]
         public void NotExecuteVarible_NotException()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "2+3+5*6+g";
 
@@ -137,8 +133,7 @@ namespace CalcClasses
         [TestMethod]
         public void NotExecuteIfUnknownOperationFirst_NotException()
         {
-            NinjectContext.SetUp();
-            var calc = NinjectContext.Kernel.Get<CalculatorString>();
+            var calc = GetCalc();
 
             string expression = "g-2-3+5*6";
 
