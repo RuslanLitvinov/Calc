@@ -9,9 +9,8 @@ namespace CalcClasses
     /// Учитывает приоритет операций, например выражение 3*(2+3)/2-3*2 - должно правильно вычисляться.
     /// Для добавления новой операции над операндом (или 2-мя операндами) в выражение expression
     /// нужно унаследоваться от класса OperatorString 
-    /// и добавить функционалу InitOperators, CalcFunction, ExecuteAction,
-    /// передав конструктору CalculatorString(IMathString oMathStr, IOperatorString oStringOperators)
-    /// соответствующие объекты.
+    /// и добавить функционал в InitOperators, CalcFunction, ExecuteAction класса наследника,
+    /// сконфигурировав NinjectConfig соответственно
     /// </summary>
     public class CalculatorString
     {
@@ -19,7 +18,6 @@ namespace CalcClasses
         private readonly IOperatorString stringOperators;
         public CalculatorString(IMathString oMathStr, IOperatorString oStringOperators)
         {
-            // Для модульного теститования
             mathStr = oMathStr;
             stringOperators = oStringOperators;
         }
